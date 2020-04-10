@@ -22,6 +22,12 @@ def create_tables():
 # this replaces authentication and identity
 jwt = JWTManager(app)  
 
+@jwt.user_claims_loader
+def add_claims_to_jwt(identity):
+    if identity == 1:
+        return {'isadmin': True}
+    return {'isadmin': False}    
+
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
 api.add_resource(Item, '/item/<string:name>')
